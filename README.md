@@ -33,8 +33,9 @@ Run Quizzer:
 
 Copy over the supporting files:
 
-    cp -pR data/ <YOUR_QUIZZER_APP_DIRECTORY>/
-    cp -pR quizzer/images/ <YOUR_QUIZZER_APP_DIRECTORY>/
+    cd <WHERE_YOU_CLONED_REPO>
+    cp -pR quizzer/data <YOUR_QUIZZER_APP_DIRECTORY>/
+    cp -pR quizzer/images <YOUR_QUIZZER_APP_DIRECTORY>/
 
 **Note**: If using Windows, compress those two folders and uncompress them under your Quizzer app folder.
 
