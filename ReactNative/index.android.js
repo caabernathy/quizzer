@@ -40,6 +40,7 @@ class Quizzer extends Component {
     this._onSubcategorySelected = this._onSubcategorySelected.bind(this);
     this._onQuestionSelected = this._onQuestionSelected.bind(this);
     this._onAnswerSelected = this._onAnswerSelected.bind(this);
+    this._onNextQuestion = this._onNextQuestion.bind(this);
   }
 
   _onCategorySelected(key) {
@@ -75,6 +76,19 @@ class Quizzer extends Component {
     currentResults[this.state.questionId] = correct;
     this.setState({ selectedAnswer: answer });
     this.setState({ results: currentResults });
+  }
+
+  _onNextQuestion(key) {
+    if (key !== null) {
+      // Go to next question
+      this.setState({
+        questionId: key,
+        selectedAnswer: null,
+      });
+    } else {
+      // Done
+      console.log("All DONE");
+    }
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -157,10 +171,18 @@ class Quizzer extends Component {
                 this.state.categoryId,
                 this.state.subcategoryId,
                 this.state.questionId);
+              const questions = DataUtils.getQuestions(
+                this.state.categoryId, this.state.subcategoryId);
+              const nextQuestion = DataUtils.getNextUnansweredQuestion(
+                questions,
+                this.state.questionId,
+                this.state.results);
               return (
                 <QuestionDetail
                   question={question}
                   selected={this.state.selectedAnswer}
+                  nextId={nextQuestion ? nextQuestion.id: null}
+                  onNext={this._onNextQuestion}
                   onPress={this._onAnswerSelected} />
               );
             default:

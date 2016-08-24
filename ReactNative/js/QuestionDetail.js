@@ -15,6 +15,7 @@ import QuestionResult from './QuestionResult';
 type Props = {
   question: {id:number,question:string,prompt?:string,answers:Array<string>,answer_index:number},
   selected?: number,
+  nextId?: number,
   onPress: (key:string) => void,
 };
 
@@ -48,6 +49,13 @@ export default class QuestionDetail extends Component {
           prompt={this.props.question.prompt}
         />
         {answersOrResult}
+        <TouchableOpacity
+          onPress={() => this.props.onNext(this.props.nextId)}>
+          <Text
+            style={styles.button}>
+            {this.props.nextId === null ? 'Done': 'Next'}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
    }
@@ -59,4 +67,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  button: {
+    alignSelf: 'center',
+    padding: 10,
+    color: 'blue',
+    fontSize: 16,
+  }
 });
