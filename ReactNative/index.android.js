@@ -37,6 +37,7 @@ class Quizzer extends Component {
     this._onCategorySelected = this._onCategorySelected.bind(this);
     this._onSubcategorySelected = this._onSubcategorySelected.bind(this);
     this._onQuestionSelected = this._onQuestionSelected.bind(this);
+    this._onAnswerSelected = this._onAnswerSelected.bind(this);
   }
 
   _onCategorySelected(key) {
@@ -56,6 +57,18 @@ class Quizzer extends Component {
     const subcategory =
       DataUtils.getSubcategory(this.state.categoryId, this.state.subcategoryId);
     this.refs.nav.push({ name: 'QuestionDetail', label: subcategory.name });
+  }
+
+  _onAnswerSelected(key) {
+    const question = DataUtils.getQuestion(
+      this.state.categoryId,
+      this.state.subcategoryId,
+      this.state.questionId);
+    const answer = parseInt(key);
+    const correct = question.answer_index == answer;
+    var currentResults = this.state.results;
+    currentResults[this.state.questionId] = correct;
+    this.setState({ results: currentResults });
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -116,7 +129,8 @@ class Quizzer extends Component {
                 this.state.questionId);
               return (
                 <QuestionDetail
-                  question={question} />
+                  question={question}
+                  onPress={this._onAnswerSelected} />
               );
             default:
               return (
