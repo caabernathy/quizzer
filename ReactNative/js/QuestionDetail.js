@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import QuestionHeader from './QuestionHeader';
 import QuestionAnswers from './QuestionAnswers';
+import QuestionAnswersImage from './QuestionAnswersImage';
 import QuestionResult from './QuestionResult';
 
 type Props = {
@@ -23,11 +24,18 @@ export default class QuestionDetail extends Component {
   }
 
   render() {
-    const answersOrResult = (this.props.selected === null) ?
-      <QuestionAnswers
+    const answers = this.props.question.type === "image" ?
+      <QuestionAnswersImage
         answers={this.props.question.answers}
         onPress={this.props.onPress}
         /> :
+      <QuestionAnswers
+        answers={this.props.question.answers}
+        onPress={this.props.onPress}
+        />;
+
+    const answersOrResult = (this.props.selected === null) ?
+      answers :
       <QuestionResult
         answer={this.props.question.answers[this.props.selected]}
         type={this.props.question.type}
