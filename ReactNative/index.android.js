@@ -21,6 +21,7 @@ class Quizzer extends Component {
 
     this.state = {
       categoryId: null,
+      subcategoryId: null,
     };
 
     this._renderNavLeftButton = this._renderNavLeftButton.bind(this);
@@ -28,10 +29,16 @@ class Quizzer extends Component {
     this._renderNavTitle = this._renderNavTitle.bind(this);
 
     this._onCategorySelected = this._onCategorySelected.bind(this);
+    this._onSubcategorySelected = this._onSubcategorySelected.bind(this);
   }
 
   _onCategorySelected(key) {
     this.setState({ categoryId: key });
+    this.refs.nav.push({ name: 'Subcategories' });
+  }
+
+  _onSubcategorySelected(key) {
+    this.setState({ subcategoryId: key });
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -54,11 +61,21 @@ class Quizzer extends Component {
         ref='nav'
         initialRoute={{ name: 'Home' }}
         renderScene={(route, navigator) => {
-          return (
-            <SimpleList
-              data={DataUtils.getCategories()}
-              onPress={this._onCategorySelected} />
-          );
+          switch (route.name) {
+            case 'Subcategories':
+              return (
+                <SimpleList
+                  data={DataUtils.getSubcategories(
+                    this.state.categoryId)}
+                  onPress={this._onSubcategorySelected} />
+               );
+            default:
+              return (
+                <SimpleList
+                  data={DataUtils.getCategories()}
+                  onPress={this._onCategorySelected} />
+              );
+            }
         }}
         navigationBar={
           <Navigator.NavigationBar
