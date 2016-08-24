@@ -9,16 +9,20 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 
+type Props = {
+  data: Array<{id:number,name:string}>,
+};
+
 export default class SimpleList extends Component {
   state: {
     dataSource: ListView.DataSource
   };
 
-  constructor() {
-    super();
+  constructor(props: Props) {
+    super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r1});
     this.state = {
-      dataSource: ds.cloneWithRows(["Subject 1", "Subject 2", "Subject 3"]),
+      dataSource: ds.cloneWithRows(this.props.data),
     };
   }
 
@@ -30,15 +34,15 @@ export default class SimpleList extends Component {
     );
   }
 
-  _renderRow(rowData: string,
+  _renderRow(rowData: {id:number,name:string},
     sectionID: string, rowID: string) {
     return (
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.SelectableBackground()}
-        onPress={() => console.log("Tapped row: " + rowID)}
+        onPress={() => console.log("Tapped row: " + rowData.id)}
         >
         <View style={styles.row}>
-          <Text>{rowData}</Text>
+          <Text>{rowData.name}</Text>
         </View>
       </TouchableNativeFeedback>
     );

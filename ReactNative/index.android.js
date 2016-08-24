@@ -13,6 +13,7 @@ import {
   Navigator,
 } from 'react-native';
 import SimpleList from './js/SimpleList';
+import DataUtils from './data/utils';
 
 class Quizzer extends Component {
   constructor(props) {
@@ -44,7 +45,8 @@ class Quizzer extends Component {
         initialRoute={{ name: 'Home' }}
         renderScene={(route, navigator) => {
           return (
-            <SimpleList />
+            <SimpleList
+              data={DataUtils.getCategories()} />
           );
         }}
         navigationBar={
