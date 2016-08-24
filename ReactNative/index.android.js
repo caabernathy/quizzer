@@ -17,6 +17,7 @@ import {
 import SimpleList from './js/SimpleList';
 import DataUtils from './data/utils';
 import Questions from './js/Questions';
+import QuestionDetail from './js/QuestionDetail';
 
 class Quizzer extends Component {
   constructor(props) {
@@ -52,7 +53,9 @@ class Quizzer extends Component {
 
   _onQuestionSelected(key) {
     this.setState({ questionId: key });
-    console.log("Selected question with id: " + key);
+    const subcategory =
+      DataUtils.getSubcategory(this.state.categoryId, this.state.subcategoryId);
+    this.refs.nav.push({ name: 'QuestionDetail', label: subcategory.name });
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -105,6 +108,15 @@ class Quizzer extends Component {
                     this.state.categoryId, this.state.subcategoryId)}
                   results={this.state.results}
                   onPress={this._onQuestionSelected} />
+              );
+            case 'QuestionDetail':
+              const question = DataUtils.getQuestion(
+                this.state.categoryId,
+                this.state.subcategoryId,
+                this.state.questionId);
+              return (
+                <QuestionDetail
+                  question={question} />
               );
             default:
               return (
