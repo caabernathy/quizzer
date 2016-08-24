@@ -6,6 +6,7 @@ import {
   View,
   Text,
   Image,
+  Animated,
 } from 'react-native';
 import ImageMap from './ImageMap';
 
@@ -16,8 +17,26 @@ type Props = {
 };
 
 export default class QuestionResult extends Component {
+  state: {
+    bounceValue: Animated.Value,
+  };
+
   constructor(props: Props) {
     super(props);
+    this.state = {
+      bounceValue: new Animated.Value(0),
+    };
+  }
+
+  componentDidMount() {
+    this.state.bounceValue.setValue(1.1);
+    Animated.spring(
+      this.state.bounceValue,
+      {
+        toValue: 0.9,
+        friction: 1,
+      }
+    ).start();
   }
 
   render() {
@@ -35,11 +54,12 @@ export default class QuestionResult extends Component {
     return (
       <View style={styles.container}>
         {answer}
-        <Text
+        <Animated.Text
           style={[styles.message,
+            { transform: [{scale: this.state.bounceValue}] },
             this.props.isCorrect ? styles.correctText: styles.incorrectText]}>
           {this.props.isCorrect ? 'Correct!': 'Incorrect!'}
-        </Text>
+        </Animated.Text>
       </View>
     );
   }
