@@ -11,6 +11,8 @@ import {
   Text,
   View,
   Navigator,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import SimpleList from './js/SimpleList';
 import DataUtils from './data/utils';
@@ -34,7 +36,8 @@ class Quizzer extends Component {
 
   _onCategorySelected(key) {
     this.setState({ categoryId: key });
-    this.refs.nav.push({ name: 'Subcategories' });
+    const category = DataUtils.getCategory(key);
+    this.refs.nav.push({ name: 'Subcategories', label: category.name });
   }
 
   _onSubcategorySelected(key) {
@@ -42,7 +45,21 @@ class Quizzer extends Component {
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
-    return null;
+    if (route.name === 'Home') {
+      return null;
+    }
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigator.pop();
+        }}
+        style={styles.navBarLeftButton}>
+        <Image
+          style={styles.navBarImage}
+          source={require('./images/back_button.png')}
+        />
+      </TouchableOpacity>
+    );
   }
 
   _renderNavRightButton(route, navigator, index, navState) {
@@ -50,8 +67,9 @@ class Quizzer extends Component {
   }
 
   _renderNavTitle(route, navigator, index, navState) {
+    const title = route.label ? route.label : route.name;
     return (
-      <Text style={styles.navBarTitle}>{route.name}</Text>
+      <Text style={styles.navBarTitle}>{title}</Text>
     );
   }
 
@@ -59,7 +77,7 @@ class Quizzer extends Component {
     return (
       <Navigator
         ref='nav'
-        initialRoute={{ name: 'Home' }}
+        initialRoute={{ name: 'Home', label: 'Quizzer' }}
         renderScene={(route, navigator) => {
           switch (route.name) {
             case 'Subcategories':
@@ -117,6 +135,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     marginVertical: 15,
+  },
+  navBarLeftButton: {
+    marginVertical: 15,
+    paddingLeft: 10,
+  },
+  navBarImage: {
+    tintColor: 'black',
+    width: 25,
+    height: 25,
   },
 });
 
