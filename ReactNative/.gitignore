@@ -22,7 +22,7 @@ DerivedData
 project.xcworkspace
 
 # Gradle
-/build/
+android/build/
 
 # Android
 .idea
