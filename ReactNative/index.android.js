@@ -19,9 +19,19 @@ class Quizzer extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      categoryId: null,
+    };
+
     this._renderNavLeftButton = this._renderNavLeftButton.bind(this);
     this._renderNavRightButton = this._renderNavRightButton.bind(this);
     this._renderNavTitle = this._renderNavTitle.bind(this);
+
+    this._onCategorySelected = this._onCategorySelected.bind(this);
+  }
+
+  _onCategorySelected(key) {
+    this.setState({ categoryId: key });
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -46,7 +56,8 @@ class Quizzer extends Component {
         renderScene={(route, navigator) => {
           return (
             <SimpleList
-              data={DataUtils.getCategories()} />
+              data={DataUtils.getCategories()}
+              onPress={this._onCategorySelected} />
           );
         }}
         navigationBar={

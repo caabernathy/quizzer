@@ -11,6 +11,7 @@ import {
 
 type Props = {
   data: Array<{id:number,name:string}>,
+  onPress: (key:string) => void,
 };
 
 export default class SimpleList extends Component {
@@ -39,7 +40,7 @@ export default class SimpleList extends Component {
     return (
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.SelectableBackground()}
-        onPress={() => console.log("Tapped row: " + rowData.id)}
+        onPress={() => this.props.onPress(rowData.id)}
         >
         <View style={styles.row}>
           <Text>{rowData.name}</Text>
