@@ -19,6 +19,7 @@ import SimpleList from './js/SimpleList';
 import DataUtils from './data/utils';
 import Questions from './js/Questions';
 import QuestionDetail from './js/QuestionDetail';
+import Score from './js/Score';
 
 class Quizzer extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class Quizzer extends Component {
     this._onQuestionSelected = this._onQuestionSelected.bind(this);
     this._onAnswerSelected = this._onAnswerSelected.bind(this);
     this._onNextQuestion = this._onNextQuestion.bind(this);
+    this._onStartOverPressed = this._onStartOverPressed.bind(this);
   }
 
   _onCategorySelected(key) {
@@ -87,8 +89,12 @@ class Quizzer extends Component {
       });
     } else {
       // Done
-      console.log("All DONE");
+      this.refs.nav.push({ name: 'Score' });
     }
+  }
+
+  _onStartOverPressed() {
+    this.refs.nav.popToTop(0);
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -184,6 +190,17 @@ class Quizzer extends Component {
                   nextId={nextQuestion ? nextQuestion.id: null}
                   onNext={this._onNextQuestion}
                   onPress={this._onAnswerSelected} />
+              );
+            case 'Score':
+              const score = DataUtils.getScore(
+                this.state.categoryId,
+                this.state.subcategoryId,
+                this.state.results);
+              return (
+                <Score
+                  correct={score.correct}
+                  total={score.total}
+                  onPress={this._onStartOverPressed} />
               );
             default:
               return (
