@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import QuestionHeader from './QuestionHeader';
 import QuestionAnswers from './QuestionAnswers';
+import QuestionResult from './QuestionResult';
 
 type Props = {
   question: {id:number,question:string,prompt?:string,answers:Array<string>,answer_index:number},
@@ -27,10 +28,11 @@ export default class QuestionDetail extends Component {
         answers={this.props.question.answers}
         onPress={this.props.onPress}
         /> :
-      <Text>
-        {this.props.selected == this.props.question.answer_index ?
-        'Correct!!': 'Oops you missed this one'}
-      </Text>
+      <QuestionResult
+        answer={this.props.question.answers[this.props.selected]}
+        type={this.props.question.type}
+        isCorrect={this.props.selected == this.props.question.answer_index}
+        />;
     return(
       <View style={styles.container}>
         <QuestionHeader
