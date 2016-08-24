@@ -14,12 +14,15 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  AsyncStorage,
 } from 'react-native';
 import SimpleList from './js/SimpleList';
 import DataUtils from './data/utils';
 import Questions from './js/Questions';
 import QuestionDetail from './js/QuestionDetail';
 import Score from './js/Score';
+
+const STORAGE_KEY = '@Quizzer:result';
 
 class Quizzer extends Component {
   constructor(props) {
@@ -43,6 +46,19 @@ class Quizzer extends Component {
     this._onAnswerSelected = this._onAnswerSelected.bind(this);
     this._onNextQuestion = this._onNextQuestion.bind(this);
     this._onStartOverPressed = this._onStartOverPressed.bind(this);
+  }
+
+  componentDidMount() {
+    // Get any previous results from local storage
+    AsyncStorage.getItem(STORAGE_KEY)
+    .then(results => {
+      if (results) {
+        this.setState({ results: JSON.parse(results) });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   _onCategorySelected(key) {
@@ -78,6 +94,8 @@ class Quizzer extends Component {
     currentResults[this.state.questionId] = correct;
     this.setState({ selectedAnswer: answer });
     this.setState({ results: currentResults });
+    // Save results to local storage
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(currentResults));
   }
 
   _onNextQuestion(key) {
@@ -128,6 +146,7 @@ class Quizzer extends Component {
             [
               {text: 'Reset', onPress: () => {
                 this.setState({ results: {} });
+                AsyncStorage.removeItem(STORAGE_KEY);
               }},
               {text: 'Cancel', onPress:null},
             ]
