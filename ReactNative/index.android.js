@@ -12,6 +12,7 @@ import {
   View,
   Navigator,
 } from 'react-native';
+import SimpleList from './js/SimpleList';
 
 class Quizzer extends Component {
   constructor(props) {
@@ -43,18 +44,7 @@ class Quizzer extends Component {
         initialRoute={{ name: 'Home' }}
         renderScene={(route, navigator) => {
           return (
-            <View style={styles.container}>
-              <Text style={styles.welcome}>
-                Welcome to React Native!
-              </Text>
-              <Text style={styles.instructions}>
-                To get started, edit index.android.js
-              </Text>
-              <Text style={styles.instructions}>
-                Double tap R on your keyboard to reload,{'\n'}
-                Shake or press menu button for dev menu
-              </Text>
-            </View>
+            <SimpleList />
           );
         }}
         navigationBar={
@@ -75,7 +65,6 @@ class Quizzer extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 100,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
