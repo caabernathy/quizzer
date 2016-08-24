@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   },
   row: {
     padding: 10,
+    flexDirection: 'row',
   },
   separator: {
     backgroundColor: '#cccccc',

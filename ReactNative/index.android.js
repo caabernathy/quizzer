@@ -28,6 +28,7 @@ class Quizzer extends Component {
       subcategoryId: null,
       questionId: null,
       results: {},
+      selectedAnswer: null,
     };
 
     this._renderNavLeftButton = this._renderNavLeftButton.bind(this);
@@ -53,7 +54,10 @@ class Quizzer extends Component {
   }
 
   _onQuestionSelected(key) {
-    this.setState({ questionId: key });
+    this.setState({
+      questionId: key,
+      selectedAnswer: null,
+    });
     const subcategory =
       DataUtils.getSubcategory(this.state.categoryId, this.state.subcategoryId);
     this.refs.nav.push({ name: 'QuestionDetail', label: subcategory.name });
@@ -68,6 +72,7 @@ class Quizzer extends Component {
     const correct = question.answer_index == answer;
     var currentResults = this.state.results;
     currentResults[this.state.questionId] = correct;
+    this.setState({ selectedAnswer: answer });
     this.setState({ results: currentResults });
   }
 
@@ -130,6 +135,7 @@ class Quizzer extends Component {
               return (
                 <QuestionDetail
                   question={question}
+                  selected={this.state.selectedAnswer}
                   onPress={this._onAnswerSelected} />
               );
             default:
