@@ -38,3 +38,7 @@ node_modules
 
 # OS X
 .DS_Store
+
+# Data files for this project
+data/
+images/
