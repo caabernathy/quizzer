@@ -13,6 +13,7 @@ import {
   Navigator,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 import SimpleList from './js/SimpleList';
 import DataUtils from './data/utils';
@@ -95,6 +96,30 @@ class Quizzer extends Component {
   }
 
   _renderNavRightButton(route, navigator, index, navState) {
+    if (route.name === 'Home') {
+      const message =
+        'You can reset your previous answers. ' +
+        'This will allow you to retake quizzes.';
+      return (
+        <TouchableOpacity
+          onPress={() => Alert.alert(
+            'Reset your answers?',
+            message,
+            [
+              {text: 'Reset', onPress: () => {
+                this.setState({ results: {} });
+              }},
+              {text: 'Cancel', onPress:null},
+            ]
+          )}
+          style={styles.navBarRightButton}>
+          <Image
+            style={styles.navBarImage}
+            source={require('./images/info_button.png')}
+          />
+        </TouchableOpacity>
+      );
+    }
     return null;
   }
 
@@ -190,6 +215,10 @@ const styles = StyleSheet.create({
   navBarLeftButton: {
     marginVertical: 15,
     paddingLeft: 10,
+  },
+  navBarRightButton: {
+    marginVertical: 15,
+    paddingRight: 10,
   },
   navBarImage: {
     tintColor: 'black',
