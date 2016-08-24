@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import SimpleList from './js/SimpleList';
 import DataUtils from './data/utils';
+import Questions from './js/Questions';
 
 class Quizzer extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ class Quizzer extends Component {
     this.state = {
       categoryId: null,
       subcategoryId: null,
+      questionId: null,
     };
 
     this._renderNavLeftButton = this._renderNavLeftButton.bind(this);
@@ -32,6 +34,7 @@ class Quizzer extends Component {
 
     this._onCategorySelected = this._onCategorySelected.bind(this);
     this._onSubcategorySelected = this._onSubcategorySelected.bind(this);
+    this._onQuestionSelected = this._onQuestionSelected.bind(this);
   }
 
   _onCategorySelected(key) {
@@ -42,6 +45,13 @@ class Quizzer extends Component {
 
   _onSubcategorySelected(key) {
     this.setState({ subcategoryId: key });
+    const subcategory = DataUtils.getSubcategory(this.state.categoryId, key);
+    this.refs.nav.push({ name: 'Questions', label: subcategory.name  });
+  }
+
+  _onQuestionSelected(key) {
+    this.setState({ questionId: key });
+    console.log("Selected question with id: " + key);
   }
 
   _renderNavLeftButton(route, navigator, index, navState) {
@@ -87,6 +97,13 @@ class Quizzer extends Component {
                     this.state.categoryId)}
                   onPress={this._onSubcategorySelected} />
                );
+            case 'Questions':
+              return(
+               <Questions
+                 data={DataUtils.getQuestions(
+                    this.state.categoryId, this.state.subcategoryId)}
+                  onPress={this._onQuestionSelected} />
+              );
             default:
               return (
                 <SimpleList
