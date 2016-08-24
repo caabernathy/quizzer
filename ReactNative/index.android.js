@@ -14,6 +14,28 @@ import {
 } from 'react-native';
 
 class Quizzer extends Component {
+  constructor(props) {
+    super(props);
+
+    this._renderNavLeftButton = this._renderNavLeftButton.bind(this);
+    this._renderNavRightButton = this._renderNavRightButton.bind(this);
+    this._renderNavTitle = this._renderNavTitle.bind(this);
+  }
+
+  _renderNavLeftButton(route, navigator, index, navState) {
+    return null;
+  }
+
+  _renderNavRightButton(route, navigator, index, navState) {
+    return null;
+  }
+
+  _renderNavTitle(route, navigator, index, navState) {
+    return (
+      <Text style={styles.navBarTitle}>{route.name}</Text>
+    );
+  }
+
   render() {
     return (
       <Navigator
@@ -38,9 +60,9 @@ class Quizzer extends Component {
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={{
-              LeftButton: () => { },
-              RightButton: () => { },
-              Title: () => { return <Text>Quizzer</Text> },
+              LeftButton: this._renderNavLeftButton,
+              RightButton: this._renderNavRightButton,
+              Title: this._renderNavTitle,
             }}
             style={styles.navBar}
           />
@@ -70,6 +92,12 @@ const styles = StyleSheet.create({
   },
   navBar: {
     backgroundColor: '#eeeeee',
+  },
+  navBarTitle: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: '500',
+    marginVertical: 15,
   },
 });
 
