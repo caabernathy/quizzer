@@ -7,10 +7,12 @@ import {
   Text,
   ListView,
   TouchableNativeFeedback,
+  Image,
 } from 'react-native';
 
 type Props = {
   data: Array<{id:number,question:string}>,
+  results: Array<{number:boolean}>,
   onPress: (key:string) => void,
 };
 
@@ -22,8 +24,25 @@ export default class Questions extends Component {
   constructor(props: Props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r1});
+    var questionsToShow = [];
+    var nextQuestion = null;
+    this.props.data.map((question) => {
+      // Question already answered
+      if (question.id in this.props.results) {
+        question.hasResult = true;
+        question.isCorrect = this.props.results[question.id];
+        questionsToShow.push(question);
+      } else if (nextQuestion === null) {
+        // First question, not answered
+        question.hasResult = false;
+        nextQuestion = question;
+      }
+    });
+    if (nextQuestion !== null) {
+      questionsToShow.unshift(nextQuestion);
+    }
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.data),
+      dataSource: ds.cloneWithRows(questionsToShow)
     };
   }
 
@@ -36,16 +55,28 @@ export default class Questions extends Component {
   }
 
   _renderRow(rowData: {id:number,question:string},
-    sectionID: string, rowID: string) {
+    sectionID: string, rowID: number) {
+    if (rowID == 0 && !rowData.hasResult) {
+      return (
+        <TouchableNativeFeedback
+          background={TouchableNativeFeedback.SelectableBackground()}
+          onPress={() => this.props.onPress(rowData.id)}
+          >
+          <View style={styles.row}>
+            <Text>Next</Text>
+          </View>
+        </TouchableNativeFeedback>
+      );
+    }
     return (
-      <TouchableNativeFeedback
-        background={TouchableNativeFeedback.SelectableBackground()}
-        onPress={() => this.props.onPress(rowData.id)}
-        >
-        <View style={styles.row}>
-          <Text>{rowData.question}</Text>
-        </View>
-      </TouchableNativeFeedback>
+      <View style={[styles.row, styles.answered]}>
+        <Text>
+          {rowData.question.substring(0, 50) + (rowData.question.length > 50?"...":"")}
+        </Text>
+        <Image
+          style={[styles.icon, rowData.isCorrect ? styles.correctIcon: styles.incorrectIcon]}
+          source={require('../images/result.png')} />
+      </View>
     );
   }
 
@@ -72,5 +103,18 @@ const styles = StyleSheet.create({
   separator: {
     backgroundColor: '#cccccc',
     height: 1,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+  },
+  correctIcon: {
+    tintColor: '#7ED321',
+  },
+  incorrectIcon: {
+    tintColor: '#FE6417',
+  },
+  answered: {
+    justifyContent: 'space-between',
   },
 });

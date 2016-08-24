@@ -26,6 +26,7 @@ class Quizzer extends Component {
       categoryId: null,
       subcategoryId: null,
       questionId: null,
+      results: {},
     };
 
     this._renderNavLeftButton = this._renderNavLeftButton.bind(this);
@@ -102,6 +103,7 @@ class Quizzer extends Component {
                <Questions
                  data={DataUtils.getQuestions(
                     this.state.categoryId, this.state.subcategoryId)}
+                  results={this.state.results}
                   onPress={this._onQuestionSelected} />
               );
             default:
