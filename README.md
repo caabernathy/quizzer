@@ -16,12 +16,12 @@ Clone this repository:
 
     git clone https://github.com/caabernathy/quizzer
 
-If you followed the pre-lab instructions, you should already have a working starter Quizzer app. Copy over the following directories:
+If you followed the pre-lab instructions, you should already have a working starter app. You just need to copy over the following directories:
 
     cp -pR quizzer/data <YOUR_QUIZZER_APP_DIRECTORY>/
     cp -pR quizzer/images <YOUR_QUIZZER_APP_DIRECTORY>/
 
-Otherwise skip to the **Run Quizzer** section.
+Then skip to the **Run Quizzer** section.
 
 Install Quizzer:
 
