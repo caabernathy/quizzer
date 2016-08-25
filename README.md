@@ -16,18 +16,21 @@ Clone this repository:
 
     git clone https://github.com/caabernathy/quizzer
 
+If you followed the pre-lab instructions, you should already have a working starter Quizzer app. If this is the case do the following, otherwise skip to the **Run Quizzer** section.
+
+    cp -pR quizzer/data <YOUR_QUIZZER_APP_DIRECTORY>/
+    cp -pR quizzer/images <YOUR_QUIZZER_APP_DIRECTORY>/
+
 Install Quizzer:
 
-**Note**: if you followed the pre-class instructions, you should already have a running app. In this case skip the following two commands:
-
     cd quizzer/ReactNative
+    cp -pR ../data .
+    cp -pR ../images .
     npm install
 
-If you skipped the previous two commands, go to the folder where you installed and tested your React Native app.
+Run Quizzer:
 
 Start up your Android emulator or connect to a real device via USB.
-
-Run Quizzer:
 
     react-native run-android
 
@@ -47,4 +50,4 @@ During the Code Lab session we'll walk through building the complete Quizzer app
 
 ## Completed app
 
-Once the walk-through is done, the completed app will be made available in the `completed` branch of this repo. Check back in a day or so to grab it.
+The completed app is available in the `completed` branch of this repo.
