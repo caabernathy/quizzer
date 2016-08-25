@@ -16,10 +16,12 @@ Clone this repository:
 
     git clone https://github.com/caabernathy/quizzer
 
-If you followed the pre-lab instructions, you should already have a working starter Quizzer app. If this is the case do the following, otherwise skip to the **Run Quizzer** section.
+If you followed the pre-lab instructions, you should already have a working starter Quizzer app. Copy over the following directories:
 
     cp -pR quizzer/data <YOUR_QUIZZER_APP_DIRECTORY>/
     cp -pR quizzer/images <YOUR_QUIZZER_APP_DIRECTORY>/
+
+Otherwise skip to the **Run Quizzer** section.
 
 Install Quizzer:
 
@@ -30,15 +32,9 @@ Install Quizzer:
 
 Run Quizzer:
 
-Start up your Android emulator or connect to a real device via USB.
+Start up your Android emulator or connect to a real device via USB. Run the app:
 
     react-native run-android
-
-Copy over the supporting files:
-
-    cd <WHERE_YOU_CLONED_REPO>
-    cp -pR quizzer/data <YOUR_QUIZZER_APP_DIRECTORY>/
-    cp -pR quizzer/images <YOUR_QUIZZER_APP_DIRECTORY>/
 
 **Note**: If using Windows, compress those two folders and uncompress them under your Quizzer app folder.
 
