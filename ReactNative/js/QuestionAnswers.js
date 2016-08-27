@@ -3,9 +3,11 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  Platform,
   View,
   Text,
   ListView,
+  TouchableHighlight,
   TouchableNativeFeedback,
 } from 'react-native';
 
@@ -36,16 +38,29 @@ export default class QuestionAnswers extends Component {
   }
 
   _renderRow(rowData: string, sectionID: string, rowID: string) {
-    return (
-      <TouchableNativeFeedback
-        background={TouchableNativeFeedback.SelectableBackground()}
-        onPress={() => this.props.onPress(rowID)}
-        >
-        <View style={styles.row}>
-          <Text>{rowData}</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
+    if(Platform.OS === 'ios'){
+      return (
+        <TouchableHighlight
+          onPress={() => this.props.onPress(rowID)}
+          >
+          <View style={styles.row}>
+            <Text>{rowData}</Text>
+          </View>
+        </TouchableHighlight>
+      );
+    }else {
+      return (
+        <TouchableNativeFeedback
+          background={TouchableNativeFeedback.SelectableBackground()}
+          onPress={() => this.props.onPress(rowID)}
+          >
+          <View style={styles.row}>
+            <Text>{rowData}</Text>
+          </View>
+        </TouchableNativeFeedback>
+      );
+    }
+
   }
 
   render() {

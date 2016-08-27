@@ -3,9 +3,11 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  Platform,
   View,
   Text,
   ListView,
+  TouchableHighlight,
   TouchableNativeFeedback,
 } from 'react-native';
 
@@ -37,16 +39,33 @@ export default class SimpleList extends Component {
 
   _renderRow(rowData: {id:number,name:string},
     sectionID: string, rowID: string) {
-    return (
-      <TouchableNativeFeedback
-        background={TouchableNativeFeedback.SelectableBackground()}
-        onPress={() => this.props.onPress(rowData.id)}
-        >
-        <View style={styles.row}>
-          <Text>{rowData.name}</Text>
-        </View>
-      </TouchableNativeFeedback>
-    );
+      if (Platform.OS === 'ios') {
+        return (
+            <TouchableHighlight
+              onPress={() => this.props.onPress(rowData.id)}
+              >
+              <View style={styles.row}>
+                <Text>{rowData.name}</Text>
+              </View>
+            </TouchableHighlight>
+
+
+        );
+      }else {
+        return (
+            <TouchableNativeFeedback
+              background={TouchableNativeFeedback.SelectableBackground()}
+              onPress={() => this.props.onPress(rowData.id)}
+              >
+              <View style={styles.row}>
+                <Text>{rowData.name}</Text>
+              </View>
+            </TouchableNativeFeedback>
+
+
+        );
+      }
+
   }
 
   render() {

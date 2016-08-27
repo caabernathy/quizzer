@@ -3,9 +3,11 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
+  Platform,
   View,
   Text,
   ListView,
+  TouchableHighlight,
   TouchableNativeFeedback,
   Image,
 } from 'react-native';
@@ -57,16 +59,31 @@ export default class Questions extends Component {
   _renderRow(rowData: {id:number,question:string},
     sectionID: string, rowID: number) {
     if (rowID == 0 && !rowData.hasResult) {
-      return (
-        <TouchableNativeFeedback
-          background={TouchableNativeFeedback.SelectableBackground()}
-          onPress={() => this.props.onPress(rowData.id)}
-          >
-          <View style={styles.row}>
-            <Text>Next</Text>
-          </View>
-        </TouchableNativeFeedback>
-      );
+
+        if (Platform.OS === 'ios') {
+          return (
+          <TouchableHighlight
+            onPress={() => this.props.onPress(rowData.id)}
+            >
+            <View style={styles.row}>
+              <Text>Next</Text>
+            </View>
+          </TouchableHighlight>
+        );
+        }else {
+          return(
+          <TouchableNativeFeedback
+            background={TouchableNativeFeedback.SelectableBackground()}
+            onPress={() => this.props.onPress(rowData.id)}
+            >
+            <View style={styles.row}>
+              <Text>Next</Text>
+            </View>
+          </TouchableNativeFeedback>
+        );
+        }
+
+
     }
     return (
       <View style={[styles.row, styles.answered]}>
