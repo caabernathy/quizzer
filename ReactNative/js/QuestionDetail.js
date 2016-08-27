@@ -5,7 +5,9 @@ import {
   StyleSheet,
   View,
   Text,
+  Platform,
   TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 import QuestionHeader from './QuestionHeader';
 import QuestionAnswers from './QuestionAnswers';
@@ -42,22 +44,42 @@ export default class QuestionDetail extends Component {
         type={this.props.question.type}
         isCorrect={this.props.selected == this.props.question.answer_index}
         />;
-    return(
-      <View style={styles.container}>
-        <QuestionHeader
-          question={this.props.question.question}
-          prompt={this.props.question.prompt}
-        />
-        {answersOrResult}
-        <TouchableOpacity
-          onPress={() => this.props.onNext(this.props.nextId)}>
-          <Text
-            style={styles.button}>
-            {this.props.nextId === null ? 'Done': 'Next'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
+        if(Platform.OS === 'ios'){
+          return(
+            <View style={styles.container}>
+              <QuestionHeader
+                question={this.props.question.question}
+                prompt={this.props.question.prompt}
+              />
+              {answersOrResult}
+              <TouchableHighlight
+                onPress={() => this.props.onNext(this.props.nextId)}>
+                <Text
+                  style={styles.button}>
+                  {this.props.nextId === null ? 'Done': 'Next'}
+                </Text>
+              </TouchableHighlight>
+            </View>
+          );
+        }else {
+          return(
+            <View style={styles.container}>
+              <QuestionHeader
+                question={this.props.question.question}
+                prompt={this.props.question.prompt}
+              />
+              {answersOrResult}
+              <TouchableOpacity
+                onPress={() => this.props.onNext(this.props.nextId)}>
+                <Text
+                  style={styles.button}>
+                  {this.props.nextId === null ? 'Done': 'Next'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          );
+        }
+
    }
 }
 
